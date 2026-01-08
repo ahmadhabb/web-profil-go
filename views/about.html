@@ -1,28 +1,28 @@
     <!-- About Hero -->
-    <section class="page-hero">
-        <div class="container">
-            <h1>Tentang Kami</h1>
-            <p>Mengenal lebih dekat {{.Company.CompanyName}}</p>
+    <section class="bg-blue-700 text-white py-20 text-center">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-4">Tentang Kami</h1>
+            <p class="text-xl text-blue-100">Mengenal lebih dekat {{.Company.CompanyName}}</p>
         </div>
     </section>
 
     <!-- About Content -->
-    <section class="about-content">
-        <div class="container">
-            <div class="about-text">
-                <h2>Cerita Kami</h2>
-                <p>Didirikan pada tahun 2020, {{.Company.CompanyName}} telah tumbuh menjadi perusahaan teknologi terkemuka yang menyediakan solusi digital inovatif untuk berbagai bisnis di Indonesia.</p>
-                <p>Dengan tim yang berdedikasi dan berpengalaman, kami berkomitmen untuk memberikan layanan terbaik kepada setiap klien kami.</p>
+    <section class="py-20">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Cerita Kami</h2>
+                <p class="text-gray-600 leading-relaxed mb-4 text-lg">Didirikan pada tahun 2020, {{.Company.CompanyName}} telah tumbuh menjadi perusahaan teknologi terkemuka yang menyediakan solusi digital inovatif untuk berbagai bisnis di Indonesia.</p>
+                <p class="text-gray-600 leading-relaxed text-lg">Dengan tim yang berdedikasi dan berpengalaman, kami berkomitmen untuk memberikan layanan terbaik kepada setiap klien kami.</p>
                 
-                <h2>Visi & Misi</h2>
-                <div class="vision-mission">
-                    <div class="vm-card">
-                        <h3><i class="fas fa-eye"></i> Visi</h3>
-                        <p>Menjadi pemimpin dalam solusi digital di Indonesia yang membawa transformasi positif bagi bisnis dan masyarakat.</p>
+                <h2 class="text-3xl font-bold mt-12 mb-8 text-gray-800">Visi & Misi</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-md border-l-4 border-blue-600">
+                        <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-blue-600"><i class="fas fa-eye"></i> Visi</h3>
+                        <p class="text-gray-600">Menjadi pemimpin dalam solusi digital di Indonesia yang membawa transformasi positif bagi bisnis dan masyarakat.</p>
                     </div>
-                    <div class="vm-card">
-                        <h3><i class="fas fa-bullseye"></i> Misi</h3>
-                        <p>Memberikan solusi teknologi terbaik dengan pendekatan yang manusiawi, inovatif, dan berkelanjutan.</p>
+                    <div class="bg-white p-8 rounded-xl shadow-md border-l-4 border-purple-600">
+                        <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-purple-600"><i class="fas fa-bullseye"></i> Misi</h3>
+                        <p class="text-gray-600">Memberikan solusi teknologi terbaik dengan pendekatan yang manusiawi, inovatif, dan berkelanjutan.</p>
                     </div>
                 </div>
             </div>
@@ -30,16 +30,16 @@
     </section>
 
     <!-- Team Section -->
-    <section class="team">
-        <div class="container">
-            <h2 class="section-title">Tim Kami</h2>
-            <div class="team-grid">
+    <section class="py-20 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Tim Kami</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {{range .Team}}
-                <div class="team-card">
-                    <div class="team-avatar">{{.avatar}}</div>
-                    <h3>{{.name}}</h3>
-                    <p class="team-position">{{.position}}</p>
-                    <p class="team-bio">{{.bio}}</p>
+                <div class="bg-white p-8 rounded-xl shadow-md text-center hover:shadow-lg transition duration-300">
+                    <div class="text-6xl mb-6">{{.avatar}}</div>
+                    <h3 class="text-xl font-bold text-gray-800">{{.name}}</h3>
+                    <p class="text-blue-600 font-medium mb-4">{{.position}}</p>
+                    <p class="text-gray-500 text-sm">{{.bio}}</p>
                 </div>
                 {{end}}
             </div>

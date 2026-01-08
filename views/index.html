@@ -1,34 +1,41 @@
-<header class="hero">
-    <div class="container">
-        <h1>{{.Company.CompanyTagline}}</h1>
-        <p>Solusi digital terbaik untuk bisnis Anda.</p>
-        <a href="/contact" class="btn">Hubungi Kami</a>
+<header class="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-24">
+    <div class="container mx-auto px-4 text-center md:text-left md:flex md:items-center md:justify-between">
+        <div class="md:w-1/2">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">{{.Company.CompanyTagline}}</h1>
+            <p class="text-xl mb-8 text-blue-100">Solusi digital terbaik untuk bisnis Anda.</p>
+            <a href="/contact" class="inline-block bg-white text-blue-600 font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition duration-300 shadow-lg">Hubungi Kami</a>
+        </div>
+        <div class="hidden md:block md:w-1/2 text-center">
+             <i class="fas fa-rocket text-9xl text-blue-400 opacity-50"></i>
+        </div>
     </div>
 </header>
 
-<section class="features container">
-    <h2>Layanan Unggulan</h2>
-    <div class="grid">
+<section class="py-20 container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Layanan Unggulan</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {{range .Features}}
-        <div class="feature-card">
-            <div class="icon">{{.icon}}</div>
-            <h3>{{.title}}</h3>
-            <p>{{.desc}}</p>
+        <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 text-center border border-gray-100">
+            <div class="text-5xl mb-6">{{.icon}}</div>
+            <h3 class="text-xl font-bold mb-3 text-gray-800">{{.title}}</h3>
+            <p class="text-gray-600">{{.desc}}</p>
         </div>
         {{end}}
     </div>
 </section>
 
-<section class="testimonials container">
-    <h2>Apa Kata Klien</h2>
-    <div class="grid">
+<section class="py-20 bg-gray-100">
+    <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Apa Kata Klien</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {{range .Testimonials}}
-        <div class="testimonial-card">
-            <div class="avatar">{{.avatar}}</div>
-            <p>"{{.text}}"</p>
-            <h4>{{.name}}</h4>
-            <small>{{.company}}</small>
+        <div class="bg-white p-8 rounded-xl shadow-md flex flex-col items-center text-center">
+            <div class="text-5xl mb-4">{{.avatar}}</div>
+            <p class="text-gray-600 italic mb-6 text-lg">"{{.text}}"</p>
+            <h4 class="font-bold text-gray-800">{{.name}}</h4>
+            <small class="text-blue-600 font-medium">{{.company}}</small>
         </div>
         {{end}}
+    </div>
     </div>
 </section>

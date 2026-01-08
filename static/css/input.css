@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles untuk kompatibilitas dengan script.js (Mobile Menu) */
+.nav-links.active {
+    @apply flex flex-col absolute top-full left-0 w-full bg-white shadow-lg p-5 border-t border-gray-100;
+}
+
+/* Base styles override */
+@layer base {
+    body {
+        @apply font-sans text-gray-800 bg-gray-50;
+    }
+}

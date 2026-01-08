@@ -1,27 +1,22 @@
-# Web Profil dengan Go Fiber
+# Web Profil Perusahaan (Go Fiber + Tailwind CSS)
 
-Sebuah web profil perusahaan modern yang dibangun dengan Go Fiber, HTML template, dan CSS/JavaScript.
+Website profil perusahaan modern yang dibangun menggunakan **Go (Fiber)** dan **Tailwind CSS**.
 
-## Fitur
-- Halaman responsif dan modern
-- 4 halaman utama: Beranda, Tentang, Layanan, Kontak
-- Form kontak dengan validasi
-- Desain mobile-friendly
-- Animasi dan transisi halus
-- Template HTML dengan Go Fiber
+## Prasyarat
 
-## Teknologi
-- Go 1.21+
-- Go Fiber v2
-- HTML/CSS/JavaScript
-- Font Awesome Icons
-- Google Fonts (Poppins)
+- [Go](https://go.dev/dl/) (versi 1.18+)
+- [Node.js & npm](https://nodejs.org/)
 
-## Instalasi dan Menjalankan
+## Cara Menjalankan
 
-1. **Clone atau buat proyek**
-```bash
-mkdir web-profil-go
-cd web-profil-go
-go mod tidy
-go run main.go
+1.  Clone repository ini.
+2.  Install dependensi:
+    ```bash
+    go mod tidy
+    npm install
+    ```
+3.  Jalankan server:
+    ```bash
+    go run main.go
+    ```
+4.  Buka http://localhost:3000 di browser.

@@ -1,59 +1,59 @@
     <!-- Services Hero -->
-    <section class="page-hero">
-        <div class="container">
-            <h1>Layanan Kami</h1>
-            <p>Solusi lengkap untuk kebutuhan digital bisnis Anda</p>
+    <section class="bg-blue-700 text-white py-20 text-center">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-4">Layanan Kami</h1>
+            <p class="text-xl text-blue-100">Solusi lengkap untuk kebutuhan digital bisnis Anda</p>
         </div>
     </section>
 
     <!-- Services List -->
-    <section class="services-list">
-        <div class="container">
+    <section class="py-20">
+        <div class="container mx-auto px-4">
             {{range .Services}}
-            <div class="service-card">
-                <div class="service-header">
-                    <h2>{{.name}}</h2>
-                    <span class="service-price">{{.price}}</span>
+            <div class="bg-white p-8 md:p-10 rounded-xl shadow-lg mb-10 border border-gray-100">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                    <h2 class="text-2xl font-bold text-gray-800">{{.name}}</h2>
+                    <span class="bg-blue-100 text-blue-700 px-4 py-2 rounded-full font-bold text-sm">{{.price}}</span>
                 </div>
-                <p class="service-desc">{{.description}}</p>
+                <p class="text-gray-600 text-lg mb-8">{{.description}}</p>
                 
-                <h4>Fitur Utama:</h4>
-                <ul class="service-features">
+                <h4 class="font-bold text-gray-800 mb-4">Fitur Utama:</h4>
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8">
                     {{range .features}}
-                    <li><i class="fas fa-check-circle"></i> {{.}}</li>
+                    <li class="flex items-center gap-3 text-gray-700"><i class="fas fa-check-circle text-green-500"></i> {{.}}</li>
                     {{end}}
                 </ul>
                 
-                <a href="/contact" class="btn btn-primary">Pesan Layanan</a>
+                <a href="/contact" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition duration-300">Pesan Layanan</a>
             </div>
             {{end}}
         </div>
     </section>
 
     <!-- Process Section -->
-    <section class="process">
-        <div class="container">
-            <h2 class="section-title">Proses Kerja Kami</h2>
-            <div class="process-steps">
-                <div class="process-step">
-                    <div class="step-number">1</div>
-                    <h3>Konsultasi</h3>
-                    <p>Diskusikan kebutuhan dan tujuan proyek Anda</p>
+    <section class="py-20 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Proses Kerja Kami</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-md text-center relative">
+                    <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">1</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Konsultasi</h3>
+                    <p class="text-gray-600">Diskusikan kebutuhan dan tujuan proyek Anda</p>
                 </div>
-                <div class="process-step">
-                    <div class="step-number">2</div>
-                    <h3>Perencanaan</h3>
-                    <p>Buat rencana dan timeline proyek</p>
+                <div class="bg-white p-8 rounded-xl shadow-md text-center">
+                    <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">2</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Perencanaan</h3>
+                    <p class="text-gray-600">Buat rencana dan timeline proyek</p>
                 </div>
-                <div class="process-step">
-                    <div class="step-number">3</div>
-                    <h3>Pengembangan</h3>
-                    <p>Implementasi solusi dengan teknologi terbaru</p>
+                <div class="bg-white p-8 rounded-xl shadow-md text-center">
+                    <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">3</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Pengembangan</h3>
+                    <p class="text-gray-600">Implementasi solusi dengan teknologi terbaru</p>
                 </div>
-                <div class="process-step">
-                    <div class="step-number">4</div>
-                    <h3>Peluncuran & Dukungan</h3>
-                    <p>Launch proyek dan berikan dukungan berkelanjutan</p>
+                <div class="bg-white p-8 rounded-xl shadow-md text-center">
+                    <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-6">4</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Peluncuran</h3>
+                    <p class="text-gray-600">Launch proyek dan berikan dukungan berkelanjutan</p>
                 </div>
             </div>
         </div>

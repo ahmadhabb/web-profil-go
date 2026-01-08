@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 	"os"
+	"os/exec"
+	"runtime"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -13,6 +15,21 @@ func main() {
 	// Debug: Cek working directory
 	dir, _ := os.Getwd()
 	log.Println("Current working directory:", dir)
+
+	// Tentukan command npm berdasarkan OS
+	npmCmd := "npm"
+	if runtime.GOOS == "windows" {
+		npmCmd = "npm.cmd"
+	}
+
+	// Build CSS sekali di awal (Synchronous) untuk memastikan file style.css terisi
+	log.Println("Building Tailwind CSS (Initial Build)...")
+	if err := exec.Command(npmCmd, "run", "build").Run(); err != nil {
+		log.Printf("Gagal build Tailwind: %v. Pastikan 'npm install' sudah dijalankan.", err)
+	}
+
+	// Jalankan Tailwind CSS watcher secara otomatis di background
+	go runTailwind(npmCmd)
 
 	// Inisialisasi template engine dengan path yang benar
 	engine := html.New("./views", ".html")
@@ -31,7 +48,9 @@ func main() {
 	// Middleware
 	app.Use(logger.New())
 	// Pastikan baris ini ada! Ini melayani file di folder static (CSS/JS)
-	app.Static("/static", "./static")
+	app.Static("/static", "./static", fiber.Static{
+		CacheDuration: -1, // Matikan cache browser saat development agar perubahan CSS terbaca
+	})
 
 	// Data untuk halaman
 	companyData := map[string]interface{}{
@@ -98,19 +117,13 @@ func main() {
 			"Active":  "about",
 			"Team": []map[string]string{
 				{
-					"name":     "Ahmad Rizki",
+					"name":     "Wahyu Chaw",
 					"position": "CEO & Founder",
 					"bio":      "Berpengalaman 10 tahun di industri teknologi.",
 					"avatar":   "👨‍💼",
 				},
 				{
-					"name":     "Maya Sari",
-					"position": "CTO",
-					"bio":      "Spesialis dalam pengembangan software.",
-					"avatar":   "👩‍💻",
-				},
-				{
-					"name":     "David Wijaya",
+					"name":     "Ahmad Hab",
 					"position": "Lead Developer",
 					"bio":      "Ahli dalam Go, Python, dan JavaScript.",
 					"avatar":   "👨‍🔧",
@@ -210,6 +223,17 @@ func main() {
 	log.Println("Server berjalan di http://localhost:3000")
 	log.Println("Cek file template di: http://localhost:3000/check-static")
 	log.Fatal(app.Listen(":3000"))
+}
+
+func runTailwind(npmCmd string) {
+	cmd := exec.Command(npmCmd, "run", "dev")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	log.Println("Starting Tailwind CSS watcher...")
+	if err := cmd.Run(); err != nil {
+		log.Printf("Tailwind CSS error: %v", err)
+	}
 }
 
 func fileExists(filename string) bool {

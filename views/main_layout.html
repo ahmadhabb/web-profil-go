@@ -4,29 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{.Title}}</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">{{.Company.CompanyName}}</div>
-            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
-            <ul class="nav-links">
-                <li><a href="/" class="{{if eq .Active "home"}}active{{end}}">Beranda</a></li>
-                <li><a href="/about" class="{{if eq .Active "about"}}active{{end}}">Tentang</a></li>
-                <li><a href="/services" class="{{if eq .Active "services"}}active{{end}}">Layanan</a></li>
-                <li><a href="/contact" class="{{if eq .Active "contact"}}active{{end}}">Kontak</a></li>
+<body class="flex flex-col min-h-screen">
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 flex justify-between items-center py-4">
+            <div class="text-2xl font-bold text-blue-600">{{.Company.CompanyName}}</div>
+            <div class="menu-toggle md:hidden text-2xl cursor-pointer text-gray-700"><i class="fas fa-bars"></i></div>
+            <ul class="nav-links hidden md:flex space-x-8 items-center">
+                <li><a href="/" class="hover:text-blue-600 transition-colors {{if eq .Active "home"}}text-blue-600 font-bold{{else}}text-gray-600 font-medium{{end}}">Beranda</a></li>
+                <li><a href="/about" class="hover:text-blue-600 transition-colors {{if eq .Active "about"}}text-blue-600 font-bold{{else}}text-gray-600 font-medium{{end}}">Tentang</a></li>
+                <li><a href="/services" class="hover:text-blue-600 transition-colors {{if eq .Active "services"}}text-blue-600 font-bold{{else}}text-gray-600 font-medium{{end}}">Layanan</a></li>
+                <li><a href="/contact" class="hover:text-blue-600 transition-colors {{if eq .Active "contact"}}text-blue-600 font-bold{{else}}text-gray-600 font-medium{{end}}">Kontak</a></li>
             </ul>
         </div>
     </nav>
 
-    <main>
+    <main class="flex-grow">
         {{embed}}
     </main>
 
-    <footer>
-        <p>&copy; 2024 {{.Company.CompanyName}}. All rights reserved.</p>
+    <footer class="bg-gray-800 text-white py-8 mt-auto text-center">
+        <p class="text-gray-400">&copy; 2024 {{.Company.CompanyName}}. All rights reserved.</p>
     </footer>
 
     <script src="/static/js/script.js"></script>
