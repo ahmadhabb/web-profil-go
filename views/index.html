@@ -1,0 +1,38 @@
+{{template "layout.html" .}}
+
+{{define "content"}}
+<header class="hero">
+    <div class="container">
+        <h1>{{.Company.CompanyTagline}}</h1>
+        <p>Solusi digital terbaik untuk bisnis Anda.</p>
+        <a href="/contact" class="btn">Hubungi Kami</a>
+    </div>
+</header>
+
+<section class="features container">
+    <h2>Layanan Unggulan</h2>
+    <div class="grid">
+        {{range .Features}}
+        <div class="feature-card">
+            <div class="icon">{{.icon}}</div>
+            <h3>{{.title}}</h3>
+            <p>{{.desc}}</p>
+        </div>
+        {{end}}
+    </div>
+</section>
+
+<section class="testimonials container">
+    <h2>Apa Kata Klien</h2>
+    <div class="grid">
+        {{range .Testimonials}}
+        <div class="testimonial-card">
+            <div class="avatar">{{.avatar}}</div>
+            <p>"{{.text}}"</p>
+            <h4>{{.name}}</h4>
+            <small>{{.company}}</small>
+        </div>
+        {{end}}
+    </div>
+</section>
+{{end}}

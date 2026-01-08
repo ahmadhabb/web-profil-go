@@ -1,0 +1,64 @@
+{{template "layout.html" .}}
+
+{{define "embed"}}
+    <!-- Services Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>Layanan Kami</h1>
+            <p>Solusi lengkap untuk kebutuhan digital bisnis Anda</p>
+        </div>
+    </section>
+
+    <!-- Services List -->
+    <section class="services-list">
+        <div class="container">
+            {{range .Services}}
+            <div class="service-card">
+                <div class="service-header">
+                    <h2>{{.name}}</h2>
+                    <span class="service-price">{{.price}}</span>
+                </div>
+                <p class="service-desc">{{.description}}</p>
+                
+                <h4>Fitur Utama:</h4>
+                <ul class="service-features">
+                    {{range .features}}
+                    <li><i class="fas fa-check-circle"></i> {{.}}</li>
+                    {{end}}
+                </ul>
+                
+                <a href="/contact" class="btn btn-primary">Pesan Layanan</a>
+            </div>
+            {{end}}
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process">
+        <div class="container">
+            <h2 class="section-title">Proses Kerja Kami</h2>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Konsultasi</h3>
+                    <p>Diskusikan kebutuhan dan tujuan proyek Anda</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>Perencanaan</h3>
+                    <p>Buat rencana dan timeline proyek</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Pengembangan</h3>
+                    <p>Implementasi solusi dengan teknologi terbaru</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>Peluncuran & Dukungan</h3>
+                    <p>Launch proyek dan berikan dukungan berkelanjutan</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{{end}}

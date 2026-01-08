@@ -1,0 +1,36 @@
+{{define "layout.html"}}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">{{.Company.CompanyName}}</div>
+            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+            <ul class="nav-links">
+                <li><a href="/" class="{{if eq .Active "home"}}active{{end}}">Beranda</a></li>
+                <li><a href="/about" class="{{if eq .Active "about"}}active{{end}}">Tentang</a></li>
+                <li><a href="/services" class="{{if eq .Active "services"}}active{{end}}">Layanan</a></li>
+                <li><a href="/contact" class="{{if eq .Active "contact"}}active{{end}}">Kontak</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        {{template "content" .}}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 {{.Company.CompanyName}}. All rights reserved.</p>
+    </footer>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
+{{end}}

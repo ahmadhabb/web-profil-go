@@ -1,0 +1,51 @@
+{{template "layout.html" .}}
+
+{{define "embed"}}
+    <!-- About Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>Tentang Kami</h1>
+            <p>Mengenal lebih dekat {{.Company.CompanyName}}</p>
+        </div>
+    </section>
+
+    <!-- About Content -->
+    <section class="about-content">
+        <div class="container">
+            <div class="about-text">
+                <h2>Cerita Kami</h2>
+                <p>Didirikan pada tahun 2020, {{.Company.CompanyName}} telah tumbuh menjadi perusahaan teknologi terkemuka yang menyediakan solusi digital inovatif untuk berbagai bisnis di Indonesia.</p>
+                <p>Dengan tim yang berdedikasi dan berpengalaman, kami berkomitmen untuk memberikan layanan terbaik kepada setiap klien kami.</p>
+                
+                <h2>Visi & Misi</h2>
+                <div class="vision-mission">
+                    <div class="vm-card">
+                        <h3><i class="fas fa-eye"></i> Visi</h3>
+                        <p>Menjadi pemimpin dalam solusi digital di Indonesia yang membawa transformasi positif bagi bisnis dan masyarakat.</p>
+                    </div>
+                    <div class="vm-card">
+                        <h3><i class="fas fa-bullseye"></i> Misi</h3>
+                        <p>Memberikan solusi teknologi terbaik dengan pendekatan yang manusiawi, inovatif, dan berkelanjutan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team">
+        <div class="container">
+            <h2 class="section-title">Tim Kami</h2>
+            <div class="team-grid">
+                {{range .Team}}
+                <div class="team-card">
+                    <div class="team-avatar">{{.avatar}}</div>
+                    <h3>{{.name}}</h3>
+                    <p class="team-position">{{.position}}</p>
+                    <p class="team-bio">{{.bio}}</p>
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </section>
+{{end}}
