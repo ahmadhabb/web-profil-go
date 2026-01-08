@@ -10,12 +10,16 @@ import (
 )
 
 func main() {
+	// Debug: Cek working directory
+	dir, _ := os.Getwd()
+	log.Println("Current working directory:", dir)
+
 	// Inisialisasi template engine dengan path yang benar
 	engine := html.New("./views", ".html")
-	
+
 	// Reload template untuk development
 	engine.Reload(true)
-	
+
 	// Debug: Cek apakah template bisa dibaca
 	engine.Debug(true)
 
@@ -26,8 +30,8 @@ func main() {
 
 	// Middleware
 	app.Use(logger.New())
+	// Pastikan baris ini ada! Ini melayani file di folder static (CSS/JS)
 	app.Static("/static", "./static")
-	app.Static("/", "./static")
 
 	// Data untuk halaman
 	companyData := map[string]interface{}{
@@ -42,11 +46,11 @@ func main() {
 	app.Get("/", func(c *fiber.Ctx) error {
 		// Debug: Cek path
 		log.Println("Mencoba render index.html")
-		
+
 		data := fiber.Map{
-			"Title":    "Beranda - " + companyData["CompanyName"].(string),
-			"Company":  companyData,
-			"Active":   "home",
+			"Title":   "Beranda - " + companyData["CompanyName"].(string),
+			"Company": companyData,
+			"Active":  "home",
 			"Features": []map[string]string{
 				{
 					"icon":  "💻",
@@ -84,7 +88,7 @@ func main() {
 				},
 			},
 		}
-		return c.Render("index", data)
+		return c.Render("index", data, "main_layout")
 	})
 
 	app.Get("/about", func(c *fiber.Ctx) error {
@@ -113,7 +117,7 @@ func main() {
 				},
 			},
 		}
-		return c.Render("about", data)
+		return c.Render("about", data, "main_layout")
 	})
 
 	app.Get("/services", func(c *fiber.Ctx) error {
@@ -142,7 +146,7 @@ func main() {
 				},
 			},
 		}
-		return c.Render("services", data)
+		return c.Render("services", data, "main_layout")
 	})
 
 	app.Get("/contact", func(c *fiber.Ctx) error {
@@ -151,7 +155,7 @@ func main() {
 			"Company": companyData,
 			"Active":  "contact",
 		}
-		return c.Render("contact", data)
+		return c.Render("contact", data, "main_layout")
 	})
 
 	app.Post("/contact", func(c *fiber.Ctx) error {
@@ -169,7 +173,7 @@ func main() {
 			"Active":     "contact",
 			"Success":    true,
 			"SuccessMsg": "Terima kasih " + name + ", pesan Anda telah dikirim! Kami akan membalas ke " + email + " segera.",
-		})
+		}, "main_layout")
 	})
 
 	// Tambahkan 404.html terlebih dahulu
@@ -177,24 +181,30 @@ func main() {
 		return c.Render("404", fiber.Map{
 			"Title":   "404 - Halaman Tidak Ditemukan",
 			"Company": companyData,
-		})
+		}, "main_layout")
 	})
 
 	// Route untuk mengecek file static
 	app.Get("/check-static", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
-			"views_exists": fileExists("./views"),
-			"layout_exists": fileExists("./views/layout.html"),
-			"index_exists": fileExists("./views/index.html"),
-			"about_exists": fileExists("./views/about.html"),
+			"views_exists":    fileExists("./views"),
+			"layout_exists":   fileExists("./views/main_layout.html"),
+			"index_exists":    fileExists("./views/index.html"),
+			"about_exists":    fileExists("./views/about.html"),
 			"services_exists": fileExists("./views/services.html"),
-			"contact_exists": fileExists("./views/contact.html"),
+			"contact_exists":  fileExists("./views/contact.html"),
 		})
 	})
 
+	// Static files root (favicon.ico, etc) - ditempatkan setelah route agar tidak menimpa route "/"
+	app.Static("/", "./static")
+
 	// 404 Handler (Pindahkan ke sini, setelah semua route didefinisikan)
 	app.Use(func(c *fiber.Ctx) error {
-		return c.Status(404).SendString("Halaman tidak ditemukan")
+		return c.Status(404).Render("404", fiber.Map{
+			"Title":   "404 - Halaman Tidak Ditemukan",
+			"Company": companyData,
+		}, "main_layout")
 	})
 
 	log.Println("Server berjalan di http://localhost:3000")
