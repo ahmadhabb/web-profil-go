@@ -23,3 +23,5 @@ Sebuah web profil perusahaan modern yang dibangun dengan Go Fiber, HTML template
 ```bash
 mkdir web-profil-go
 cd web-profil-go
+go mod tidy
+go run main.go
