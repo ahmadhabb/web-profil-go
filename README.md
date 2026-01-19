@@ -6,6 +6,7 @@ Website profil perusahaan modern yang dibangun menggunakan **Go (Fiber)** dan **
 
 - [Go](https://go.dev/dl/) (versi 1.18+)
 - [Node.js & npm](https://nodejs.org/)
+- PostgreSQL 14.0
 
 ## Cara Menjalankan
 
