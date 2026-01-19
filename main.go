@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
 	"os/exec"
@@ -9,9 +10,24 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/html/v2"
+	"github.com/jackc/pgx/v5"
 )
 
 func main() {
+
+	// =========================
+	// DATABASE CONNECTION
+	// =========================
+	dsn := "postgres://cp_user:password123@localhost:5432/company_profile"
+
+	db, err := pgx.Connect(context.Background(), dsn)
+	if err != nil {
+		log.Fatal("Gagal connect ke database:", err)
+	}
+	defer db.Close(context.Background())
+
+	log.Println("PostgreSQL connected successfully!")
+
 	// Debug: Cek working directory
 	dir, _ := os.Getwd()
 	log.Println("Current working directory:", dir)
