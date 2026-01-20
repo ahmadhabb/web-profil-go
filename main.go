@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"log"
 	"os"
 	"os/exec"
@@ -10,23 +11,51 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/html/v2"
-	"github.com/jackc/pgx/v5"
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
+
+type Feature struct {
+	Icon  string
+	Title string
+	Desc  string
+}
 
 func main() {
 
 	// =========================
 	// DATABASE CONNECTION
 	// =========================
-	dsn := "postgres://cp_user:password123@localhost:5432/company_profile"
+	dsn := "postgres://cp_user:password123@localhost:5432/company_profile?sslmode=disable"
 
-	db, err := pgx.Connect(context.Background(), dsn)
+	db, err := sql.Open("pgx", dsn)
 	if err != nil {
 		log.Fatal("Gagal connect ke database:", err)
 	}
-	defer db.Close(context.Background())
+	defer db.Close()
+
+	if err := db.Ping(); err != nil {
+		log.Fatal("Gagal ping database:", err)
+	}
 
 	log.Println("PostgreSQL connected successfully!")
+
+	// Run database migrations
+	log.Println("Running database migrations...")
+	driver, err := postgres.WithInstance(db, &postgres.Config{})
+	if err != nil {
+		log.Fatal("Failed to create migrate driver:", err)
+	}
+	m, err := migrate.NewWithDatabaseInstance("file://migrations", "postgres", driver)
+	if err != nil {
+		log.Fatal("Failed to create migrate instance:", err)
+	}
+	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
+		log.Fatal("Failed to run migrations:", err)
+	}
+	log.Println("Migrations completed successfully!")
 
 	// Debug: Cek working directory
 	dir, _ := os.Getwd()
@@ -82,32 +111,17 @@ func main() {
 		// Debug: Cek path
 		log.Println("Mencoba render index.html")
 
+		features, err := getFeatures(db)
+		if err != nil {
+			log.Printf("Gagal get features: %v", err)
+			features = []Feature{} // fallback empty
+		}
+
 		data := fiber.Map{
-			"Title":   "Beranda - " + companyData["CompanyName"].(string),
-			"Company": companyData,
-			"Active":  "home",
-			"Features": []map[string]string{
-				{
-					"icon":  "💻",
-					"title": "Web Development",
-					"desc":  "Kami membuat website yang responsif dan modern.",
-				},
-				{
-					"icon":  "📱",
-					"title": "Mobile Apps",
-					"desc":  "Aplikasi mobile untuk iOS dan Android.",
-				},
-				{
-					"icon":  "☁️",
-					"title": "Cloud Solutions",
-					"desc":  "Solusi cloud untuk bisnis Anda.",
-				},
-				{
-					"icon":  "🔒",
-					"title": "Cybersecurity",
-					"desc":  "Melindungi data dan sistem Anda.",
-				},
-			},
+			"Title":    "Beranda - " + companyData["CompanyName"].(string),
+			"Company":  companyData,
+			"Active":   "home",
+			"Features": features,
 			"Testimonials": []map[string]string{
 				{
 					"name":    "Budi Santoso",
@@ -239,6 +253,25 @@ func main() {
 	log.Println("Server berjalan di http://localhost:3000")
 	log.Println("Cek file template di: http://localhost:3000/check-static")
 	log.Fatal(app.Listen(":3000"))
+}
+
+func getFeatures(db *sql.DB) ([]Feature, error) {
+	rows, err := db.QueryContext(context.Background(), "SELECT icon, title, description FROM features ORDER BY id")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var features []Feature
+	for rows.Next() {
+		var f Feature
+		err := rows.Scan(&f.Icon, &f.Title, &f.Desc)
+		if err != nil {
+			return nil, err
+		}
+		features = append(features, f)
+	}
+	return features, rows.Err()
 }
 
 func runTailwind(npmCmd string) {
