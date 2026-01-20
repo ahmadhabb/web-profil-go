@@ -46,6 +46,17 @@ Untuk backup atau share data:
   pg_dump -h localhost -p 5432 -U cp_user -d company_profile > backup.sql
   ```
 
-## Migrasi
+## Migrasi Database
 
-File migrasi ada di folder `migrations/`. Jalankan manual di pgAdmin atau psql.
+Aplikasi menggunakan golang-migrate untuk migrasi otomatis saat startup.
+
+- File migrasi ada di folder `migrations/`.
+- Migrasi otomatis dijalankan saat `go run main.go`.
+- Untuk rollback: Edit kode untuk `m.Down()` (hati-hati, ini drop tabel).
+
+## Ekspor Database
+
+Untuk backup:
+```bash
+pg_dump -h localhost -p 5432 -U cp_user -d company_profile > backup.sql
+```

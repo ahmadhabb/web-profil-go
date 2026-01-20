@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"log"
 	"os"
 	"os/exec"
@@ -13,7 +14,7 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"github.com/jackc/pgx/v5"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 type Feature struct {
@@ -29,11 +30,15 @@ func main() {
 	// =========================
 	dsn := "postgres://cp_user:password123@localhost:5432/company_profile?sslmode=disable"
 
-	db, err := pgx.Connect(context.Background(), dsn)
+	db, err := sql.Open("pgx", dsn)
 	if err != nil {
 		log.Fatal("Gagal connect ke database:", err)
 	}
-	defer db.Close(context.Background())
+	defer db.Close()
+
+	if err := db.Ping(); err != nil {
+		log.Fatal("Gagal ping database:", err)
+	}
 
 	log.Println("PostgreSQL connected successfully!")
 
@@ -250,8 +255,8 @@ func main() {
 	log.Fatal(app.Listen(":3000"))
 }
 
-func getFeatures(db *pgx.Conn) ([]Feature, error) {
-	rows, err := db.Query(context.Background(), "SELECT icon, title, description FROM features ORDER BY id")
+func getFeatures(db *sql.DB) ([]Feature, error) {
+	rows, err := db.QueryContext(context.Background(), "SELECT icon, title, description FROM features ORDER BY id")
 	if err != nil {
 		return nil, err
 	}
