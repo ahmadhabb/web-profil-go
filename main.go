@@ -10,6 +10,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/html/v2"
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jackc/pgx/v5"
 )
 
@@ -34,16 +37,20 @@ func main() {
 
 	log.Println("PostgreSQL connected successfully!")
 
-	// Create features table if not exists
-	_, err = db.Exec(context.Background(), `CREATE TABLE IF NOT EXISTS features (
-		id SERIAL PRIMARY KEY,
-		icon TEXT,
-		title TEXT,
-		description TEXT
-	)`)
+	// Run database migrations
+	log.Println("Running database migrations...")
+	driver, err := postgres.WithInstance(db, &postgres.Config{})
 	if err != nil {
-		log.Fatal("Gagal create table features:", err)
+		log.Fatal("Failed to create migrate driver:", err)
 	}
+	m, err := migrate.NewWithDatabaseInstance("file://migrations", "postgres", driver)
+	if err != nil {
+		log.Fatal("Failed to create migrate instance:", err)
+	}
+	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
+		log.Fatal("Failed to run migrations:", err)
+	}
+	log.Println("Migrations completed successfully!")
 
 	// Debug: Cek working directory
 	dir, _ := os.Getwd()
