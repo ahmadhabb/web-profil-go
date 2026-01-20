@@ -23,6 +23,13 @@ type Feature struct {
 	Desc  string
 }
 
+type Testimonial struct {
+	Name    string
+	Company string
+	Text    string
+	Avatar  string
+}
+
 func main() {
 
 	// =========================
@@ -117,25 +124,18 @@ func main() {
 			features = []Feature{} // fallback empty
 		}
 
+		testimonials, err := getTestimonials(db)
+		if err != nil {
+			log.Printf("Gagal get testimonials: %v", err)
+			testimonials = []Testimonial{} // fallback empty
+		}
+
 		data := fiber.Map{
-			"Title":    "Beranda - " + companyData["CompanyName"].(string),
-			"Company":  companyData,
-			"Active":   "home",
-			"Features": features,
-			"Testimonials": []map[string]string{
-				{
-					"name":    "Budi Santoso",
-					"company": "ABC Corporation",
-					"text":    "Pelayanan sangat memuaskan, website kami jadi lebih modern.",
-					"avatar":  "👨",
-				},
-				{
-					"name":    "Sari Dewi",
-					"company": "XYZ Enterprises",
-					"text":    "Tim yang profesional dan hasil kerja berkualitas tinggi.",
-					"avatar":  "👩",
-				},
-			},
+			"Title":        "Beranda - " + companyData["CompanyName"].(string),
+			"Company":      companyData,
+			"Active":       "home",
+			"Features":     features,
+			"Testimonials": testimonials,
 		}
 		return c.Render("index", data, "main_layout")
 	})
@@ -250,9 +250,9 @@ func main() {
 		}, "main_layout")
 	})
 
-	log.Println("Server berjalan di http://localhost:3000")
-	log.Println("Cek file template di: http://localhost:3000/check-static")
-	log.Fatal(app.Listen(":3000"))
+	log.Println("Server berjalan di http://localhost:3002")
+	log.Println("Cek file template di: http://localhost:3002/check-static")
+	log.Fatal(app.Listen(":3002"))
 }
 
 func getFeatures(db *sql.DB) ([]Feature, error) {
@@ -272,6 +272,25 @@ func getFeatures(db *sql.DB) ([]Feature, error) {
 		features = append(features, f)
 	}
 	return features, rows.Err()
+}
+
+func getTestimonials(db *sql.DB) ([]Testimonial, error) {
+	rows, err := db.QueryContext(context.Background(), "SELECT name, company, text, avatar FROM testimonials ORDER BY id")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var testimonials []Testimonial
+	for rows.Next() {
+		var t Testimonial
+		err := rows.Scan(&t.Name, &t.Company, &t.Text, &t.Avatar)
+		if err != nil {
+			return nil, err
+		}
+		testimonials = append(testimonials, t)
+	}
+	return testimonials, rows.Err()
 }
 
 func runTailwind(npmCmd string) {
