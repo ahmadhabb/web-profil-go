@@ -1,6 +1,7 @@
 # Web Profil Perusahaan (Go Fiber + Tailwind CSS)
 
 Website profil perusahaan modern yang dibangun menggunakan **Go (Fiber)** dan **Tailwind CSS**.
+masih dalam proses
 
 ## Prasyarat
 
